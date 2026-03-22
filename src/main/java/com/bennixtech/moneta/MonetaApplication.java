@@ -19,17 +19,18 @@ public class MonetaApplication {
     @Bean
     CommandLineRunner runner(ProductRepository productRepository) {
 
-        ProductPricing pricing1 = new ProductPricing();
-        pricing1.setName("Individual License");
-        pricing1.setType(PricingType.SUBSCRIPTION);
-        pricing1.setPrice(Money.of(new BigDecimal("49.0"), "KES"));
-
-        ProductPricing pricing2 = new ProductPricing();
-        pricing2.setName("5-Year Individual License");
-        pricing2.setType(PricingType.ONE_TIME_PURCHASE);
-        pricing2.setPrice(Money.of(new BigDecimal("199.0"), "KES"));
-
         return _ -> {
+
+            ProductPricing pricing1 = new ProductPricing();
+            pricing1.setName("Individual License");
+            pricing1.setType(PricingType.SUBSCRIPTION);
+            pricing1.setPrice(Money.of(new BigDecimal("49.0"), "KES"));
+
+            ProductPricing pricing2 = new ProductPricing();
+            pricing2.setName("5-Year Individual License");
+            pricing2.setType(PricingType.ONE_TIME_PURCHASE);
+            pricing2.setPrice(Money.of(new BigDecimal("199.0"), "KES"));
+
             Product product = new Product();
             product.setId(1L);
             product.setName("Persistence Optimizer");
@@ -37,10 +38,10 @@ public class MonetaApplication {
             product.addPricingPlan(pricing2);
 
             MonetaryAmount amount = pricing1.getPrice().add(pricing2.getPrice());
+
             System.out.println("Total price: " + amount);
             System.out.println("Currency: " + amount.getCurrency().getCurrencyCode());
             System.out.println("Amount: " + amount.getNumber().doubleValue());
-
 
             productRepository.save(product);
         };
